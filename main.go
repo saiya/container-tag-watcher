@@ -43,12 +43,11 @@ func mainImpl() error {
 	if err != nil {
 		return fmt.Errorf("cannot open configuration file \"%s\": %w", args[0], err)
 	}
-	defer cfgInput.Close()
-
 	cfg, err := config.ParseConfig(cfgInput)
 	if err != nil {
 		return fmt.Errorf("invalid configuration file: %w", err)
 	}
+	cfgInput.Close()
 
 	n := notifier.NewNotifier(ctx, cfg)
 	defer n.Close()
