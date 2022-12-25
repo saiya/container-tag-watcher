@@ -28,8 +28,11 @@ targets:
     commands:
       - "echo container image update detected!"
   
-  # More example
+  # Full example
   "12345678890.dkr.ecr.ap-northeast-1.amazonaws.com/my-application:latest":
+    # Platform of the container image to check (default: linux/amd64)
+    platform: "linux/amd64"
+
     # Interval of polling (default: 3m)
     # Syntax of the duration complies to https://pkg.go.dev/time#ParseDuration
     polling-interval: "3m"

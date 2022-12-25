@@ -15,6 +15,7 @@ targets:
     commands:
       - "echo a b c"
   "12345678890.dkr.ecr.ap-northeast-1.amazonaws.com/my-application:latest":
+    platform: "linux/arm64"
     polling-interval: "123m"
     continue-on-error: true
     backlog-limit: 123
@@ -34,12 +35,14 @@ targets:
 	}
 
 	var target1 = "saiya/container-tag-watcher:latest"
+	assert.Equal(t, "linux/amd64", cfg.Targets[target1].Platform)
 	assert.Equal(t, config.PollingIntervalDefault, cfg.Targets[target1].PollingInterval)
 	assert.Equal(t, config.ContinueOnErrorDefault, cfg.Targets[target1].ContinueOnError)
 	assert.Equal(t, config.NotificationBacklogLimitDefault, *cfg.Targets[target1].BacklogLimit)
 	assert.Equal(t, []string{"sh", "-c", "echo a b c"}, cfg.Targets[target1].Commands[0])
 
 	var target2 = "12345678890.dkr.ecr.ap-northeast-1.amazonaws.com/my-application:latest"
+	assert.Equal(t, "linux/arm64", cfg.Targets[target2].Platform)
 	assert.Equal(t, "123m", cfg.Targets[target2].PollingInterval)
 	assert.Equal(t, !config.ContinueOnErrorDefault, cfg.Targets[target2].ContinueOnError)
 	assert.Equal(t, 123, *cfg.Targets[target2].BacklogLimit)

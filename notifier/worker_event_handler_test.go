@@ -10,16 +10,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/saiya/container_tag_watcher/logger"
 	"github.com/saiya/container_tag_watcher/notifier"
 	"github.com/saiya/container_tag_watcher/testutil"
 	"github.com/stretchr/testify/assert"
 )
-
-func TestMain(m *testing.M) {
-	logger.EnableDebugLog()
-	m.Run()
-}
 
 func Test(t *testing.T) {
 	history := newCommandsHistory()

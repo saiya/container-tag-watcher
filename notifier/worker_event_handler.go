@@ -68,9 +68,8 @@ func (h *WorkerEventHandler) Start(ctx context.Context) {
 				h.execCommands(ctx)
 			}
 		}
+		logger.Get().Debugw("Notification worker closed", h.logAttrs()...)
 	}()
-
-	logger.Get().Debugw("Notification worker closed", h.logAttrs()...)
 }
 
 func (h *WorkerEventHandler) execCommands(ctx context.Context) {
@@ -98,7 +97,7 @@ CmdLoop:
 				logger.Get().Warnw("Command ended in non-zero code", zapFields...)
 			} else {
 				zapFields = append(zapFields, "err", err)
-				logger.Get().Errorw("Failed to execute command", zapFields...)
+				logger.Get().Errorw("Failed to execute command: "+err.Error(), zapFields...)
 			}
 			if !h.ContinueOnError {
 				break CmdLoop

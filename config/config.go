@@ -21,6 +21,7 @@ func (cfg *Config) TargetNames() []string {
 }
 
 type WatchTarget struct {
+	Platform        string `json:"platform" yaml:"platform"`
 	PollingInterval string `json:"polling-interval" yaml:"polling-interval"`
 	ContinueOnError bool   `json:"continue-on-error" yaml:"continue-on-error"`
 	BacklogLimit    *int   `json:"backlog-limit" yaml:"backlog-limit"`
@@ -28,6 +29,7 @@ type WatchTarget struct {
 	Commands []interface{} `json:"commands" yaml:"commands"` // After post-process, elements are always []string
 }
 
+const PlatformDefault = "linux/amd64"
 const PollingIntervalDefault = "3m"
 const ContinueOnErrorDefault = false
 const NotificationBacklogLimitDefault = 1
@@ -57,6 +59,10 @@ func ParseConfig(in io.Reader) (*Config, error) {
 
 func (target *WatchTarget) postProcess(location string) *ConfigParseError {
 	var parseError *ConfigParseError
+
+	if target.Platform == "" {
+		target.Platform = PlatformDefault
+	}
 
 	if target.PollingInterval == "" {
 		target.PollingInterval = PollingIntervalDefault

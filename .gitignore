@@ -1,4 +1,4 @@
-/test-config.yml
+/dist
 
 # Binaries for programs and plugins
 *.exe
@@ -15,3 +15,5 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+dist/

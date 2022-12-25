@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/saiya/container_tag_watcher/config"
+	cr "github.com/saiya/container_tag_watcher/containerregistryclient"
 	"github.com/saiya/container_tag_watcher/logger"
 )
 
@@ -16,7 +17,7 @@ type Watcher struct {
 
 type ImageUpdateCallback func(targetName string)
 
-func NewWatcher(ctx context.Context, cfg *config.Config, callback ImageUpdateCallback) *Watcher {
+func NewWatcher(ctx context.Context, cfg *config.Config, crClient cr.Client, callback ImageUpdateCallback) *Watcher {
 	rootCtx, rootCtxCloser := context.WithCancel(ctx)
 	w := &Watcher{
 		rootCtx:       rootCtx,
@@ -26,7 +27,7 @@ func NewWatcher(ctx context.Context, cfg *config.Config, callback ImageUpdateCal
 	}
 
 	for name, target := range cfg.Targets {
-		newWorker(ctx, name, target, callback)
+		newWorker(ctx, name, target, crClient, callback)
 	}
 	return w
 }

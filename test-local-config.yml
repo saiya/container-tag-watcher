@@ -1,0 +1,6 @@
+targets:
+  "saiya/dsps:latest":
+    polling-interval: "5s"
+    commands:
+      - "echo container image update detected!"
+ 
